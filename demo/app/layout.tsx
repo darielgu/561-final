@@ -34,7 +34,7 @@ patchBrokenServerLocalStorage();
 
 export const metadata: Metadata = {
   title: "AI vs Human Detector Demo",
-  description: "Brutalist one-page demo for text origin prediction",
+  description: "CS561 Final, Group-9",
 };
 
 export default function RootLayout({
