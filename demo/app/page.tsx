@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 import { AiInput } from "@/components/ui/ai-input";
 
@@ -44,48 +46,112 @@ export default function Page() {
   }
 
   return (
-    <main className="mx-auto min-h-dvh w-full max-w-6xl p-4 sm:p-6">
-      <section className="mb-5 border-4 border-black bg-white p-4 sm:p-6">
-        <h1 className="font-mono text-4xl uppercase leading-[0.9] tracking-[0.08em] sm:text-7xl">
-          Geist Pixel Detector
-        </h1>
-        <p className="mt-3 max-w-3xl text-sm sm:text-base">
-          Upload a <strong>.txt</strong> or <strong>.md</strong> file, or paste raw text. We extract the content and run your project model to classify human vs AI writing.
+    <main className="mx-auto min-h-dvh w-full max-w-6xl px-4 pb-10 pt-6 sm:px-6">
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35 }}
+        className="panel mb-5 p-5 sm:p-7"
+      >
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="kicker">CS 561 Final Project</p>
+            <h1 className="display mt-2">AI vs Human Writing Detection</h1>
+          </div>
+          <Link href="/findings" className="nav-link">
+            View Findings
+          </Link>
+        </div>
+        <p className="lede mt-4 max-w-4xl">
+          Natural Language Processing (NLP) helps computers process language. This project classifies text as
+          human-written or AI-generated to support concerns around education, academic integrity, and online content
+          authenticity.
         </p>
-      </section>
+      </motion.section>
 
-      <section className="border-4 border-black bg-white p-3 sm:p-5">
-        <AiInput onSubmitText={runPrediction} isLoading={loading} />
+      <div className="grid gap-5 lg:grid-cols-[1.35fr_1fr]">
+        <motion.section
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.05 }}
+          className="panel p-4 sm:p-5"
+        >
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3 border-b border-white/20 pb-3">
+            <h2 className="section-title">Run Classifier</h2>
+            <span className="mono-tag">TF-IDF + Logistic Regression</span>
+          </div>
 
-        {error ? (
-          <div className="mt-3 border-2 border-black bg-black px-3 py-2 text-sm text-white">{error}</div>
-        ) : null}
+          <AiInput onSubmitText={runPrediction} isLoading={loading} />
 
-        {result ? (
-          <div className="mt-4 border-2 border-black bg-white p-3">
-            <h2 className="mb-2 text-sm font-bold uppercase tracking-wide">Prediction</h2>
-            <div className="grid gap-1 text-sm sm:grid-cols-[160px_1fr]">
-              <strong>Label</strong>
-              <span className="font-mono">{result.label}</span>
+          {error ? <div className="notice mt-3">{error}</div> : null}
 
-              <strong>Confidence</strong>
-              <span className="font-mono">{(result.confidence * 100).toFixed(2)}%</span>
+          {result ? (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-4 border border-white/25 bg-white/5 p-3"
+            >
+              <div className="mb-3 flex items-center justify-between">
+                <h3 className="section-title">Prediction</h3>
+                <span className="mono-tag">{result.label}</span>
+              </div>
+              <div className="grid gap-2 text-sm sm:grid-cols-[170px_1fr]">
+                <strong>Confidence</strong>
+                <span className="font-mono">{(result.confidence * 100).toFixed(2)}%</span>
 
-              <strong>P(AI)</strong>
-              <span className="font-mono">{result.probability_ai.toFixed(4)}</span>
+                <strong>P(AI)</strong>
+                <span className="font-mono">{result.probability_ai.toFixed(4)}</span>
 
-              <strong>P(Human)</strong>
-              <span className="font-mono">{result.probability_human.toFixed(4)}</span>
+                <strong>P(Human)</strong>
+                <span className="font-mono">{result.probability_human.toFixed(4)}</span>
 
-              <strong>Model</strong>
-              <span className="font-mono">{result.model_name}</span>
+                <strong>Model</strong>
+                <span className="font-mono">{result.model_name}</span>
 
-              <strong>Type</strong>
-              <span className="font-mono">{result.model_type}</span>
+                <strong>Type</strong>
+                <span className="font-mono">{result.model_type}</span>
+              </div>
+            </motion.div>
+          ) : null}
+        </motion.section>
+
+        <motion.aside
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.35, delay: 0.1 }}
+          className="panel p-4 sm:p-5"
+        >
+          <h2 className="section-title mb-3">Project Context</h2>
+          <div className="space-y-4 text-sm leading-relaxed text-white/85">
+            <div>
+              <h3 className="meta">Topic / Problem</h3>
+              <p>Design and evaluate ML and deep learning models that classify text as AI-generated or human-written.</p>
+            </div>
+            <div>
+              <h3 className="meta">Dataset</h3>
+              <p>
+                ai-and-human-text-dataset from Kaggle with 6,069 text samples, labeled as
+                <span className="font-mono"> 0 = Human</span> and
+                <span className="font-mono"> 1 = AI</span>.
+              </p>
+            </div>
+            <div>
+              <h3 className="meta">Methods</h3>
+              <p>
+                Preprocessing includes lowercasing, tokenization, and stop-word removal. Text is transformed with
+                TF-IDF and used in baseline and advanced model comparisons (TF-IDF baseline and BERT).
+              </p>
+            </div>
+            <div>
+              <h3 className="meta">Evaluation</h3>
+              <p>
+                Performance is measured with accuracy, precision, recall, and F1 to compare classical ML baselines
+                with pretrained LLM-oriented approaches.
+              </p>
             </div>
           </div>
-        ) : null}
-      </section>
+        </motion.aside>
+      </div>
     </main>
   );
 }

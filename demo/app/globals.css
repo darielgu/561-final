@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
+  --background: #090909;
+  --foreground: #fafafa;
+  --muted: #c9c9c9;
 }
 
 * {
@@ -19,4 +20,105 @@ body {
 
 body {
   font-family: var(--font-geist-sans), sans-serif;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.1), transparent 35%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.08), transparent 45%),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px,
+      transparent 36px
+    ),
+    var(--background);
+}
+
+a {
+  color: inherit;
+}
+
+.display {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: clamp(2rem, 5.5vw, 4.5rem);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+.kicker {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.lede {
+  font-size: clamp(0.95rem, 1.8vw, 1.08rem);
+  line-height: 1.7;
+  color: rgba(250, 250, 250, 0.84);
+}
+
+.panel {
+  border: 1px solid rgba(255, 255, 255, 0.26);
+  background: rgba(9, 9, 9, 0.76);
+  backdrop-filter: blur(3px);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+}
+
+.panel:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.42);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+.section-title {
+  font-family: var(--font-geist-mono), monospace;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.meta {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #d3d3d3;
+}
+
+.mono-tag {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.07);
+  padding: 0.3rem 0.55rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.nav-link {
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 0.5rem 0.8rem;
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.nav-link:hover {
+  background: #fff;
+  color: #000;
+  transform: translateY(-1px);
+}
+
+.notice {
+  border: 1px solid #fff;
+  background: #fff;
+  padding: 0.55rem 0.72rem;
+  color: #000;
+  font-size: 0.86rem;
 }

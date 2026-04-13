@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "NODE_OPTIONS=--localstorage-file=.next/localstorage.db next dev",
+    "build": "NODE_OPTIONS=--localstorage-file=.next/localstorage.db next build",
+    "start": "NODE_OPTIONS=--localstorage-file=.next/localstorage.db next start",
     "lint": "next lint"
   },
   "dependencies": {
