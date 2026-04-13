@@ -26,3 +26,10 @@ https://www.kaggle.com/datasets/hasanyiitakbulut/ai-and-human-text-dataset
    - `OPENAI_API_KEY=your_openai_key`
    - Optional: `OPENAI_MODEL=gpt-4.1-mini`
 4. Run notebook cells top-to-bottom.
+
+## Model Performance (From Executed Notebook)
+
+| Model | Accuracy | Precision | Recall | F1 |
+|---|---:|---:|---:|---:|
+| TF-IDF + LogisticRegression | 0.988468 | 0.988599 | 0.988599 | 0.988599 |
+| BERT (fine-tuned subset) | 0.997500 | 0.995074 | 1.000000 | 0.997531 |
