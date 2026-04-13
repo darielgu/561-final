@@ -1,0 +1,6 @@
+node_modules
+.next
+out
+.model_cache
+.env.local
+.DS_Store
