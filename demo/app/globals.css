@@ -46,6 +46,19 @@ a {
   line-height: 0.95;
 }
 
+.hero-title {
+  font-size: clamp(2rem, 5.8vw, 4.8rem);
+  line-height: 0.98;
+  letter-spacing: 0.04em;
+  font-family: var(--font-geist-pixel-square), var(--font-geist-mono), monospace;
+  font-weight: 500;
+}
+
+.ai-word {
+  font-family: var(--font-geist-pixel-square), var(--font-geist-mono), monospace;
+  letter-spacing: 0.06em;
+}
+
 .kicker {
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.74rem;
@@ -61,10 +74,10 @@ a {
 }
 
 .panel {
-  border: 1px solid rgba(255, 255, 255, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   background: rgba(9, 9, 9, 0.76);
   backdrop-filter: blur(3px);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
 
@@ -72,6 +85,33 @@ a {
   transform: translateY(-1px);
   border-color: rgba(255, 255, 255, 0.42);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15) inset;
+}
+
+.hero-row {
+  min-height: clamp(360px, 64vh, 680px);
+  display: grid;
+  place-items: center;
+}
+
+.hero-shell {
+  position: relative;
+  width: 100%;
+  min-height: clamp(330px, 58vh, 620px);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.hero-shader {
+  position: absolute;
+  inset: 0;
+  opacity: 0.75;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  padding-inline: 1rem;
 }
 
 .section-title {
@@ -91,7 +131,7 @@ a {
 }
 
 .mono-tag {
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.25);
   background: rgba(255, 255, 255, 0.07);
   padding: 0.3rem 0.55rem;
   font-family: var(--font-geist-mono), monospace;
@@ -100,7 +140,7 @@ a {
 }
 
 .nav-link {
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
   padding: 0.5rem 0.8rem;
   font-family: var(--font-geist-mono), monospace;
   font-size: 0.74rem;
@@ -121,4 +161,9 @@ a {
   padding: 0.55rem 0.72rem;
   color: #000;
   font-size: 0.86rem;
+}
+
+.result-card {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.04);
 }

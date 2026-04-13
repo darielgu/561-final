@@ -2,7 +2,7 @@
 
 import { type ChangeEvent, type MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Paperclip, Plus, Send } from "lucide-react";
+import { Paperclip, Plus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
@@ -56,9 +56,10 @@ const MAX_HEIGHT = 220;
 type AiInputProps = {
   onSubmitText: (text: string) => Promise<void> | void;
   isLoading?: boolean;
+  isDisabled?: boolean;
 };
 
-export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
+export function AiInput({ onSubmitText, isLoading = false, isDisabled = false }: AiInputProps) {
   const [value, setValue] = useState("");
   const [fileName, setFileName] = useState<string | null>(null);
   const [error, setError] = useState("");
@@ -79,6 +80,7 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
   };
 
   const handleFileChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    if (isDisabled) return;
     setError("");
     const file = e.target.files?.[0];
     if (!file) return;
@@ -106,6 +108,11 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
   };
 
   const handleSubmit = async () => {
+    if (isDisabled) {
+      setError("Classification is only enabled locally. Run the server on localhost to try it.");
+      return;
+    }
+
     const payload = value.trim();
     if (payload.length < 20) {
       setError("Enter at least 20 characters to run prediction.");
@@ -118,8 +125,8 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
 
   return (
     <div className="w-full py-2">
-      <div className="relative mx-auto w-full max-w-3xl border border-white/30 bg-black p-2 shadow-[8px_8px_0_0_rgba(255,255,255,0.2)] transition-shadow duration-200 hover:shadow-[10px_10px_0_0_rgba(255,255,255,0.25)]">
-        <div className="relative flex flex-col border border-white/20 bg-black">
+      <div className="relative mx-auto w-full max-w-3xl bg-black/50 p-1.5">
+        <div className="relative flex flex-col border border-white/16 bg-black/70">
           <div className="overflow-y-auto" style={{ maxHeight: `${MAX_HEIGHT}px` }}>
             <div className="relative">
               <Textarea
@@ -128,6 +135,7 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
                 placeholder="Paste text, or attach a .txt/.md file..."
                 className="w-full resize-none rounded-none border-0 bg-black px-4 py-4 text-base leading-tight text-white placeholder:text-white/45 focus-visible:ring-0"
                 ref={textareaRef}
+                disabled={isDisabled}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
                     e.preventDefault();
@@ -142,11 +150,11 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
             </div>
           </div>
 
-          <div className="h-14 border-t border-white/20 bg-black">
+          <div className="h-14 border-t border-white/15 bg-black/80">
             <div className="absolute bottom-3 left-3 flex items-center gap-2">
               <label
                 className={cn(
-                  "relative cursor-pointer rounded-none border border-white/50 p-2 transition-all duration-150 hover:-translate-y-px hover:bg-white hover:text-black",
+                  "relative cursor-pointer rounded-none border border-white/35 p-2 transition-all duration-150 hover:-translate-y-px hover:bg-white hover:text-black",
                   fileName ? "bg-white text-black" : "bg-black text-white",
                 )}
               >
@@ -155,6 +163,7 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
                   accept=".txt,.md,text/plain,text/markdown"
                   ref={fileInputRef}
                   onChange={handleFileChange}
+                  disabled={isDisabled}
                   className="hidden"
                 />
                 <Paperclip className="h-4 w-4" />
@@ -171,7 +180,7 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
                     <span className="max-w-[160px] truncate">{fileName}</span>
                     <button
                       onClick={clearFile}
-                      className="inline-flex h-5 w-5 items-center justify-center border border-black text-black transition-transform duration-150 hover:rotate-90"
+                      className="inline-flex h-5 w-5 items-center justify-center border border-black/70 text-black transition-transform duration-150 hover:rotate-90"
                       type="button"
                     >
                       <Plus className="h-3 w-3 rotate-45" />
@@ -185,13 +194,15 @@ export function AiInput({ onSubmitText, isLoading = false }: AiInputProps) {
               <button
                 type="button"
                 onClick={() => void handleSubmit()}
-                disabled={isLoading}
+                disabled={isLoading || isDisabled}
                 className={cn(
-                  "rounded-none border border-white p-2 transition-all duration-150 hover:-translate-y-px active:translate-y-0",
-                  isLoading ? "bg-white/20 text-white/70" : "bg-white text-black hover:bg-transparent hover:text-white",
+                  "rounded-none border border-white/45 px-3 py-2 text-xs font-semibold uppercase tracking-wide transition-all duration-150 hover:-translate-y-px active:translate-y-0",
+                  isLoading || isDisabled
+                    ? "bg-white/20 text-white/70"
+                    : "bg-white text-black hover:bg-transparent hover:text-white",
                 )}
               >
-                <Send className="h-4 w-4" />
+                {isLoading ? "Detecting..." : "Detect Text"}
               </button>
             </div>
           </div>
